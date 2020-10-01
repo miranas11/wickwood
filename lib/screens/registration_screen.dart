@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:wickwood/components/constants.dart';
 import 'package:wickwood/screens/main_screen.dart';
-import 'package:wickwood/widgets/input_field.dart';
-import 'package:wickwood/widgets/logo.dart';
-import 'package:wickwood/widgets/start_screen_button.dart';
+import 'package:wickwood/widgets/login_registration/input_field.dart';
+import 'package:wickwood/widgets/login_registration/logo.dart';
+import 'package:wickwood/widgets/login_registration/start_screen_button.dart';
 
 class RegistrationScreen extends StatelessWidget {
   static const String id = 'registration_screen';

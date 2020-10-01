@@ -21,7 +21,7 @@ class StartScreenButton extends StatelessWidget {
             ),
           ),
           elevation: 5,
-          color: kOrangeColor,
+          color: kButtonColor,
           onPressed: onPressed,
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),

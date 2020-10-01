@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:wickwood/components/constants.dart';
 import 'package:wickwood/widgets/mainscreen/slogan.dart';
 import 'package:wickwood/widgets/mainscreen/categorywidget.dart';
-import 'package:wickwood/widgets/mainscreen/product_box.dart';
+import 'package:wickwood/widgets/mainscreen/product_listview.dart';
 
 class MainScreen extends StatelessWidget {
   static const String id = 'main_screen';
@@ -39,14 +39,32 @@ class MainScreen extends StatelessWidget {
         child: Column(
           children: <Widget>[
             Slogan(),
-            Container(
-              padding: EdgeInsets.all(20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  CategoryWidget(),
-                  ProductBox(),
-                ],
+            Expanded(
+              child: Container(
+                child: ListView(
+                  children: <Widget>[
+                    CategoryWidget(
+                      image: 'chair',
+                      text: 'Chairs',
+                    ),
+                    ChairListView(),
+                    CategoryWidget(
+                      image: 'sofa',
+                      text: 'Sofas',
+                    ),
+                    SofaListView(),
+                    CategoryWidget(
+                      image: 'cupboard',
+                      text: 'Cupboards',
+                    ),
+                    CupBoardListView(),
+                    CategoryWidget(
+                      image: 'bed',
+                      text: 'Beds',
+                    ),
+                    BedListView()
+                  ],
+                ),
               ),
             )
           ],
