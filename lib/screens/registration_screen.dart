@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wickwood/components/constants.dart';
+import 'package:wickwood/screens/main_screen.dart';
 import 'package:wickwood/widgets/input_field.dart';
 import 'package:wickwood/widgets/logo.dart';
 import 'package:wickwood/widgets/start_screen_button.dart';
@@ -32,6 +33,9 @@ class RegistrationScreen extends StatelessWidget {
           Hero(
             tag: 'signup',
             child: StartScreenButton(
+              onPressed: () {
+                Navigator.pushNamed(context, MainScreen.id);
+              },
               width: 300,
               text: 'Sign Up',
             ),
