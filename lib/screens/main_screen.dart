@@ -62,7 +62,12 @@ class MainScreen extends StatelessWidget {
                       image: 'bed',
                       text: 'Beds',
                     ),
-                    BedListView()
+                    BedListView(),
+                    CategoryWidget(
+                      image: 'table',
+                      text: 'Tables',
+                    ),
+                    TableListView(),
                   ],
                 ),
               ),

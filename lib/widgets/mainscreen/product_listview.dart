@@ -98,3 +98,26 @@ class BedListView extends StatelessWidget {
     );
   }
 }
+
+class TableListView extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 200,
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemBuilder: (context, index) {
+          return ProductBox(
+            name: Provider.of<ProductData>(context).tableProducts[index].name,
+            material:
+                Provider.of<ProductData>(context).tableProducts[index].material,
+            price: Provider.of<ProductData>(context).tableProducts[index].price,
+            image: Provider.of<ProductData>(context).tableProducts[index].image,
+            categoryname: 'tables',
+          );
+        },
+        itemCount: Provider.of<ProductData>(context).tableProducts.length,
+      ),
+    );
+  }
+}

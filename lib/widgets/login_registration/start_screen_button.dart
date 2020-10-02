@@ -5,11 +5,13 @@ class StartScreenButton extends StatelessWidget {
   final Function onPressed;
   final String text;
   final double width;
-  StartScreenButton({this.text, this.onPressed, this.width});
+  final double horizontalpadding;
+  StartScreenButton(
+      {this.text, this.onPressed, this.width, this.horizontalpadding = 8});
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: EdgeInsets.symmetric(vertical: 8, horizontal: horizontalpadding),
       child: ButtonTheme(
         height: 60,
         minWidth: width,
@@ -23,8 +25,9 @@ class StartScreenButton extends StatelessWidget {
           elevation: 5,
           color: kButtonColor,
           onPressed: onPressed,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(30),
+          ),
         ),
       ),
     );

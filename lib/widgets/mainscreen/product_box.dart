@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wickwood/components/constants.dart';
+import 'package:wickwood/widgets/mainscreen/bottom_sheet_product.dart';
 
 class ProductBox extends StatelessWidget {
   final String name;
@@ -57,6 +58,7 @@ class ProductBox extends StatelessWidget {
               material: material,
               price: price,
             ),
+            //Button
             Positioned(
               right: -10,
               bottom: 17,
@@ -67,7 +69,19 @@ class ProductBox extends StatelessWidget {
                   Icons.expand_more,
                   color: kOrangeColor,
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  showModalBottomSheet(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                    backgroundColor: Colors.orange[200],
+                    context: context,
+                    builder: (context) => ProductBottomSheet(
+                      image: image,
+                      categoryname: categoryname,
+                    ),
+                  );
+                },
               ),
             )
           ],

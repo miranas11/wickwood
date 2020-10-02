@@ -98,4 +98,31 @@ class ProductData extends ChangeNotifier {
     Product(name: 'Wooden Bed', image: 'bed1', material: 'wood', price: 999.99),
     Product(name: 'Wooden Bed', image: 'bed1', material: 'wood', price: 999.99),
   ];
+
+  List<Product> tableProducts = [
+    Product(
+        name: 'Wooden Table', image: 'table1', material: 'wood', price: 999.99),
+    Product(
+        name: 'Wooden Table', image: 'table1', material: 'wood', price: 999.99),
+    Product(
+        name: 'Wooden Table', image: 'table1', material: 'wood', price: 999.99),
+    Product(
+        name: 'Wooden Table', image: 'table1', material: 'wood', price: 999.99),
+    Product(
+        name: 'Wooden Table', image: 'table1', material: 'wood', price: 999.99),
+    Product(
+        name: 'Wooden Table', image: 'table1', material: 'wood', price: 999.99),
+    Product(
+        name: 'Wooden Table', image: 'table1', material: 'wood', price: 999.99),
+    Product(
+        name: 'Wooden Table', image: 'table1', material: 'wood', price: 999.99),
+    Product(
+        name: 'Wooden Table', image: 'table1', material: 'wood', price: 999.99),
+    Product(
+        name: 'Wooden Table', image: 'table1', material: 'wood', price: 999.99),
+    Product(
+        name: 'Wooden Table', image: 'table1', material: 'wood', price: 999.99),
+    Product(
+        name: 'Wooden Table', image: 'table1', material: 'wood', price: 999.99),
+  ];
 }
