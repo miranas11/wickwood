@@ -79,6 +79,9 @@ class ProductBox extends StatelessWidget {
                     builder: (context) => ProductBottomSheet(
                       image: image,
                       categoryname: categoryname,
+                      name: name,
+                      material: material,
+                      price: price,
                     ),
                   );
                 },
@@ -106,26 +109,16 @@ class ProductDetail extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              '$name',
-              style:
-                  TextStyle(color: kButtonColor, fontWeight: FontWeight.w600),
+            NameText(
+              name: name,
             ),
-            Text(
-              '$material',
-              style:
-                  TextStyle(color: kButtonColor, fontWeight: FontWeight.w300),
+            MaterialText(
+              material: material,
             ),
             SizedBox(
               height: 5,
             ),
-            Text(
-              '₹ $price',
-              style: TextStyle(
-                  color: kButtonColor,
-                  fontSize: 15,
-                  fontWeight: FontWeight.w600),
-            ),
+            PriceText(price: price),
           ],
         ),
       ),

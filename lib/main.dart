@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wickwood/components/constants.dart';
 import 'package:wickwood/components/product_data.dart';
+import 'package:wickwood/screens/cart_screen.dart';
 import 'package:wickwood/screens/login_screen.dart';
 import 'package:wickwood/screens/main_screen.dart';
 import 'package:wickwood/screens/registration_screen.dart';
@@ -21,6 +22,9 @@ class MyApp extends StatelessWidget {
           accentColor: kButtonColor,
           hintColor: Colors.white,
           appBarTheme: AppBarTheme(
+            iconTheme: IconThemeData(
+              color: kButtonColor,
+            ),
             color: kOrangeColor,
           ),
         ),
@@ -30,6 +34,7 @@ class MyApp extends StatelessWidget {
           LoginScreen.id: (context) => LoginScreen(),
           RegistrationScreen.id: (context) => RegistrationScreen(),
           MainScreen.id: (context) => MainScreen(),
+          CartScreen.id: (context) => CartScreen(),
         },
       ),
     );

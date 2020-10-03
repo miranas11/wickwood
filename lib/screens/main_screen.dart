@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wickwood/components/constants.dart';
+import 'package:wickwood/screens/cart_screen.dart';
 import 'package:wickwood/widgets/mainscreen/slogan.dart';
 import 'package:wickwood/widgets/mainscreen/categorywidget.dart';
 import 'package:wickwood/widgets/mainscreen/product_listview.dart';
@@ -25,7 +26,9 @@ class MainScreen extends StatelessWidget {
         ),
         actions: <Widget>[
           FlatButton(
-            onPressed: null,
+            onPressed: () {
+              Navigator.pushNamed(context, CartScreen.id);
+            },
             child: Icon(
               Icons.shopping_cart,
               color: kButtonColor,
