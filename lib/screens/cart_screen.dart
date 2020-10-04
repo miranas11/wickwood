@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wickwood/components/constants.dart';
 import 'package:wickwood/components/product_data.dart';
-import 'package:wickwood/widgets/login_registration/input_field.dart';
 import 'package:wickwood/widgets/login_registration/start_screen_button.dart';
 import 'package:wickwood/widgets/mainscreen/product_listview.dart';
 import 'package:wickwood/widgets/cartscreen/address_widget.dart';

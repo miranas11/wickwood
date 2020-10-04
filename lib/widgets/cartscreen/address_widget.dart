@@ -4,6 +4,16 @@ import 'package:wickwood/widgets/login_registration/input_field.dart';
 class AddressWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    // ignore: unused_local_variable
+    String address;
+    // ignore: unused_local_variable
+    String pincode;
+    // ignore: unused_local_variable
+    String landmark;
+    // ignore: unused_local_variable
+    String state;
+    // ignore: unused_local_variable
+    String phonenumber;
     return Expanded(
       child: SingleChildScrollView(
         child: Column(
@@ -12,23 +22,43 @@ class AddressWidget extends StatelessWidget {
             DetailText(
               text: 'Address',
             ),
-            InputField(),
+            InputField(
+              updateValue: (value) {
+                address = value;
+              },
+            ),
             DetailText(
               text: 'Pincode',
             ),
-            InputField(),
+            InputField(
+              updateValue: (value) {
+                pincode = value;
+              },
+            ),
             DetailText(
               text: 'Landmark',
             ),
-            InputField(),
+            InputField(
+              updateValue: (value) {
+                landmark = value;
+              },
+            ),
             DetailText(
               text: 'State',
             ),
-            InputField(),
+            InputField(
+              updateValue: (value) {
+                state = value;
+              },
+            ),
             DetailText(
               text: 'Phone Number',
             ),
-            InputField(),
+            InputField(
+              updateValue: (value) {
+                phonenumber = value;
+              },
+            ),
           ],
         ),
       ),
