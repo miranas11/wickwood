@@ -8,6 +8,8 @@ class ProductData extends ChangeNotifier {
   static String bed = 'beds';
   static String table = 'tables';
 
+  static double totalPrice = 0;
+
   List<Product> chairProducts = [
     Product(
         name: 'Brown Chair',
@@ -137,6 +139,17 @@ class ProductData extends ChangeNotifier {
 
   void addtocart(Product newProduct) {
     cartProducts.add(newProduct);
+    totalPrice += newProduct.price;
     notifyListeners();
+  }
+
+  void removefromCart(Product product) {
+    cartProducts.remove(product);
+    totalPrice -= product.price;
+    notifyListeners();
+  }
+
+  double getTotalPrice() {
+    return totalPrice;
   }
 }

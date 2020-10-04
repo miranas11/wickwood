@@ -13,13 +13,14 @@ class ChairListView extends StatelessWidget {
         scrollDirection: Axis.horizontal,
         itemBuilder: (context, index) {
           return ProductBox(
-            name: Provider.of<ProductData>(context).chairProducts[index].name,
-            material:
-                Provider.of<ProductData>(context).chairProducts[index].material,
-            price: Provider.of<ProductData>(context).chairProducts[index].price,
-            image: Provider.of<ProductData>(context).chairProducts[index].image,
-            categoryname:
-                Provider.of<ProductData>(context).chairProducts[index].category,
+            product: Provider.of<ProductData>(context).chairProducts[index],
+            // name: Provider.of<ProductData>(context).chairProducts[index].name,
+            // material:
+            //     Provider.of<ProductData>(context).chairProducts[index].material,
+            // price: Provider.of<ProductData>(context).chairProducts[index].price,
+            // image: Provider.of<ProductData>(context).chairProducts[index].image,
+            // categoryname:
+            //     Provider.of<ProductData>(context).chairProducts[index].category,
           );
         },
         itemCount: Provider.of<ProductData>(context).chairProducts.length,
@@ -37,13 +38,7 @@ class SofaListView extends StatelessWidget {
         scrollDirection: Axis.horizontal,
         itemBuilder: (context, index) {
           return ProductBox(
-            name: Provider.of<ProductData>(context).sofaProducts[index].name,
-            material:
-                Provider.of<ProductData>(context).sofaProducts[index].material,
-            price: Provider.of<ProductData>(context).sofaProducts[index].price,
-            image: Provider.of<ProductData>(context).sofaProducts[index].image,
-            categoryname:
-                Provider.of<ProductData>(context).sofaProducts[index].category,
+            product: Provider.of<ProductData>(context).sofaProducts[index],
           );
         },
         itemCount: Provider.of<ProductData>(context).sofaProducts.length,
@@ -61,18 +56,7 @@ class CupBoardListView extends StatelessWidget {
         scrollDirection: Axis.horizontal,
         itemBuilder: (context, index) {
           return ProductBox(
-            name:
-                Provider.of<ProductData>(context).cupBoardProducts[index].name,
-            material: Provider.of<ProductData>(context)
-                .cupBoardProducts[index]
-                .material,
-            price:
-                Provider.of<ProductData>(context).cupBoardProducts[index].price,
-            image:
-                Provider.of<ProductData>(context).cupBoardProducts[index].image,
-            categoryname: Provider.of<ProductData>(context)
-                .cupBoardProducts[index]
-                .category,
+            product: Provider.of<ProductData>(context).cupBoardProducts[index],
           );
         },
         itemCount: Provider.of<ProductData>(context).cupBoardProducts.length,
@@ -90,13 +74,7 @@ class BedListView extends StatelessWidget {
         scrollDirection: Axis.horizontal,
         itemBuilder: (context, index) {
           return ProductBox(
-            name: Provider.of<ProductData>(context).bedProducts[index].name,
-            material:
-                Provider.of<ProductData>(context).bedProducts[index].material,
-            price: Provider.of<ProductData>(context).bedProducts[index].price,
-            image: Provider.of<ProductData>(context).bedProducts[index].image,
-            categoryname:
-                Provider.of<ProductData>(context).bedProducts[index].category,
+            product: Provider.of<ProductData>(context).bedProducts[index],
           );
         },
         itemCount: Provider.of<ProductData>(context).bedProducts.length,
@@ -114,13 +92,7 @@ class TableListView extends StatelessWidget {
         scrollDirection: Axis.horizontal,
         itemBuilder: (context, index) {
           return ProductBox(
-            name: Provider.of<ProductData>(context).tableProducts[index].name,
-            material:
-                Provider.of<ProductData>(context).tableProducts[index].material,
-            price: Provider.of<ProductData>(context).tableProducts[index].price,
-            image: Provider.of<ProductData>(context).tableProducts[index].image,
-            categoryname:
-                Provider.of<ProductData>(context).tableProducts[index].category,
+            product: Provider.of<ProductData>(context).tableProducts[index],
           );
         },
         itemCount: Provider.of<ProductData>(context).tableProducts.length,
@@ -137,13 +109,7 @@ class CartListView extends StatelessWidget {
         scrollDirection: Axis.vertical,
         itemBuilder: (context, index) {
           return CartProductBox(
-            name: Provider.of<ProductData>(context).cartProducts[index].name,
-            material:
-                Provider.of<ProductData>(context).cartProducts[index].material,
-            price: Provider.of<ProductData>(context).cartProducts[index].price,
-            image: Provider.of<ProductData>(context).cartProducts[index].image,
-            categoryname:
-                Provider.of<ProductData>(context).cartProducts[index].category,
+            product: Provider.of<ProductData>(context).cartProducts[index],
           );
         },
         itemCount: Provider.of<ProductData>(context).cartProducts.length,

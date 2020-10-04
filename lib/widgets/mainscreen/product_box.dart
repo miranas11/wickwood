@@ -1,19 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:wickwood/components/constants.dart';
+import 'package:wickwood/components/product_class.dart';
 import 'package:wickwood/widgets/mainscreen/bottom_sheet_product.dart';
 
 class ProductBox extends StatelessWidget {
-  final String name;
-  final String image;
-  final String material;
-  final double price;
-  final String categoryname;
-  ProductBox(
-      {this.name = 'Brown Chair',
-      this.image = 'chair1',
-      this.material = 'Wood',
-      this.price = 99.99,
-      this.categoryname});
+  final Product product;
+
+  ProductBox({this.product});
   @override
   Widget build(BuildContext context) {
     //for the stack
@@ -49,14 +42,13 @@ class ProductBox extends StatelessWidget {
                 alignment: Alignment.center,
                 child: Image(
                   height: 120,
-                  image: AssetImage('assets/images/$categoryname/$image.png'),
+                  image: AssetImage(
+                      'assets/images/${product.category}/${product.image}.png'),
                 ),
               ),
             ),
             ProductDetail(
-              name: name,
-              material: material,
-              price: price,
+              product: product,
             ),
             //Button
             Positioned(
@@ -77,11 +69,7 @@ class ProductBox extends StatelessWidget {
                     backgroundColor: Colors.orange[200],
                     context: context,
                     builder: (context) => ProductBottomSheet(
-                      image: image,
-                      categoryname: categoryname,
-                      name: name,
-                      material: material,
-                      price: price,
+                      product: product,
                     ),
                   );
                 },
@@ -96,10 +84,8 @@ class ProductBox extends StatelessWidget {
 
 //displays details like price name and material on product Box
 class ProductDetail extends StatelessWidget {
-  final String name;
-  final String material;
-  final double price;
-  ProductDetail({this.name, this.material, this.price});
+  final Product product;
+  ProductDetail({this.product});
   @override
   Widget build(BuildContext context) {
     return Positioned(
@@ -110,15 +96,15 @@ class ProductDetail extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             NameText(
-              name: name,
+              name: product.name,
             ),
             MaterialText(
-              material: material,
+              material: product.material,
             ),
             SizedBox(
               height: 5,
             ),
-            PriceText(price: price),
+            PriceText(price: product.price),
           ],
         ),
       ),

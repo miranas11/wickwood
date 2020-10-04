@@ -6,13 +6,9 @@ import 'package:wickwood/components/product_data.dart';
 import 'package:wickwood/widgets/login_registration/start_screen_button.dart';
 
 class ProductBottomSheet extends StatelessWidget {
-  final String categoryname;
-  final String image;
-  final String name;
-  final double price;
-  final String material;
-  ProductBottomSheet(
-      {this.image, this.categoryname, this.name, this.price, this.material});
+  final Product product;
+
+  ProductBottomSheet({this.product});
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -35,7 +31,8 @@ class ProductBottomSheet extends StatelessWidget {
                 ),
               ),
               child: Image(
-                image: AssetImage('assets/images/$categoryname/$image.png'),
+                image: AssetImage(
+                    'assets/images/${product.category}/${product.image}.png'),
               ),
             ),
           ),
@@ -58,7 +55,7 @@ class ProductBottomSheet extends StatelessWidget {
                         fontWeight: FontWeight.w400),
                   ),
                   PriceText(
-                    price: 99.99,
+                    price: product.price,
                     size: 20,
                   ),
                 ],
@@ -74,13 +71,7 @@ class ProductBottomSheet extends StatelessWidget {
               width: 100,
               onPressed: () {
                 Provider.of<ProductData>(context, listen: false).addtocart(
-                  Product(
-                    name: name,
-                    price: price,
-                    material: material,
-                    category: categoryname,
-                    image: image,
-                  ),
+                  product,
                 );
                 Navigator.pop(context);
               },

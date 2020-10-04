@@ -1,10 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:wickwood/components/constants.dart';
+import 'package:wickwood/components/product_data.dart';
+import 'package:wickwood/widgets/login_registration/input_field.dart';
+import 'package:wickwood/widgets/login_registration/start_screen_button.dart';
 import 'package:wickwood/widgets/mainscreen/product_listview.dart';
+import 'package:wickwood/widgets/cartscreen/address_widget.dart';
 
-class CartScreen extends StatelessWidget {
+class CartScreen extends StatefulWidget {
   static const String id = 'cart_screen';
+
+  @override
+  _CartScreenState createState() => _CartScreenState();
+}
+
+class _CartScreenState extends State<CartScreen> {
+  Widget onScreenWidget = CartListView();
+
   @override
   Widget build(BuildContext context) {
+    double totalvalue = double.parse(
+        (Provider.of<ProductData>(context).getTotalPrice()).toStringAsFixed(2));
     return Scaffold(
       backgroundColor: Colors.white,
       extendBodyBehindAppBar: true,
@@ -33,9 +49,67 @@ class CartScreen extends StatelessWidget {
             SizedBox(
               height: 10,
             ),
-            CartListView(),
+            onScreenWidget,
+            Column(
+              children: <Widget>[
+                End2EndText(
+                  leftText: 'Cost',
+                  rightText: totalvalue,
+                ),
+                End2EndText(
+                  leftText: 'Tax',
+                  rightText: 0,
+                ),
+                End2EndText(
+                  leftText: 'Total',
+                  rightText: totalvalue,
+                ),
+              ],
+            ),
+            //button
+            Container(
+              padding: EdgeInsets.all(10),
+              child: StartScreenButton(
+                text: 'Proceed',
+                onPressed: () {
+                  setState(() {
+                    onScreenWidget = AddressWidget();
+                  });
+                },
+                width: 100,
+                horizontalpadding: 30,
+              ),
+            )
           ],
         ),
+      ),
+    );
+  }
+}
+
+class End2EndText extends StatelessWidget {
+  final String leftText;
+  final double rightText;
+
+  End2EndText({this.leftText, this.rightText});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 50, vertical: 5),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            leftText,
+            style: TextStyle(
+                color: kButtonColor, fontSize: 15, fontWeight: FontWeight.w400),
+          ),
+          PriceText(
+            price: rightText,
+            size: 15,
+          ),
+        ],
       ),
     );
   }

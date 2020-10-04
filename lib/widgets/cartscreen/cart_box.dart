@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:wickwood/components/constants.dart';
+import 'package:wickwood/components/product_class.dart';
+import 'package:wickwood/components/product_data.dart';
 
 class CartProductBox extends StatelessWidget {
-  final String name;
-  final String material;
-  final double price;
-  final String image;
-  final String categoryname;
-  CartProductBox(
-      {this.name, this.material, this.image, this.price, this.categoryname});
+  final Product product;
+  final double totalPrice;
+  CartProductBox({this.product, this.totalPrice});
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -29,7 +28,8 @@ class CartProductBox extends StatelessWidget {
               ],
             ),
             child: Image(
-              image: AssetImage('assets/images/$categoryname/$image.png'),
+              image: AssetImage(
+                  'assets/images/${product.category}/${product.image}.png'),
             ),
           ),
 
@@ -41,13 +41,13 @@ class CartProductBox extends StatelessWidget {
                 height: 25,
               ),
               NameText(
-                name: name,
+                name: product.name,
               ),
               SizedBox(
                 height: 5,
               ),
               MaterialText(
-                material: material,
+                material: product.material,
               )
             ],
           ),
@@ -58,7 +58,25 @@ class CartProductBox extends StatelessWidget {
                 height: 25,
               ),
               PriceText(
-                price: price,
+                price: product.price,
+              ),
+              SizedBox(
+                height: 70,
+              ),
+              RaisedButton(
+                elevation: 5,
+                child: Icon(
+                  Icons.delete_outline,
+                  color: kOrangeColor,
+                ),
+                color: kButtonColor,
+                shape: CircleBorder(
+                  side: BorderSide(color: kOrangeColor),
+                ),
+                onPressed: () {
+                  Provider.of<ProductData>(context, listen: false)
+                      .removefromCart(product);
+                },
               )
             ],
           ),
