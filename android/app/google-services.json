@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "980102544567",
+    "firebase_url": "https://wickwood-727cb.firebaseio.com",
+    "project_id": "wickwood-727cb",
+    "storage_bucket": "wickwood-727cb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:980102544567:android:436e0add3f2cabfcb06132",
+        "android_client_info": {
+          "package_name": "com.example.wickwood"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "980102544567-n9kp12sv8f9h2g4fequ2jknipcnsatfn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBtnf8fc2xYZpcswEU1HnyZCMS8cFGlKgI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "980102544567-n9kp12sv8f9h2g4fequ2jknipcnsatfn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
