@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wickwood/components/constants.dart';
-import 'package:wickwood/components/product_class.dart';
+import 'package:wickwood/models/product_class.dart';
 import 'package:wickwood/components/product_data.dart';
 
 class CartProductBox extends StatelessWidget {

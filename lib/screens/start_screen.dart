@@ -1,12 +1,77 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:wickwood/components/constants.dart';
-import 'package:wickwood/screens/login_screen.dart';
-import 'package:wickwood/screens/registration_screen.dart';
-import 'package:wickwood/widgets/login_registration/start_screen_button.dart';
+import 'package:wickwood/models/user.dart';
+import 'package:wickwood/screens/main_screen.dart';
 import 'package:wickwood/widgets/login_registration/logo.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
-class StartScreen extends StatelessWidget {
+final GoogleSignIn googleSignIn = GoogleSignIn();
+final userRef = FirebaseFirestore.instance.collection('users');
+User currentUser;
+final DateTime timestamp = DateTime.now();
+
+class StartScreen extends StatefulWidget {
   static const String id = 'start_screen';
+
+  @override
+  _StartScreenState createState() => _StartScreenState();
+}
+
+class _StartScreenState extends State<StartScreen> {
+  handleSignIn(GoogleSignInAccount account) {
+    if (account != null) {
+      createUserInFirestore();
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => MainScreen()),
+      );
+    }
+  }
+
+  createUserInFirestore() async {
+    final GoogleSignInAccount user = googleSignIn.currentUser;
+    DocumentSnapshot userdoc = await userRef.doc(user.id).get();
+
+    if (!userdoc.exists) {
+      userRef.doc(user.id).set({
+        'id': user.id,
+        'email': user.email,
+        'photo_url': user.photoUrl,
+        'display_name': user.displayName,
+        'time_stamp': timestamp,
+      });
+
+      userdoc = await userRef.doc(user.id).get();
+    }
+    currentUser = User.fromDocument(userdoc);
+    Navigator.pushNamed(context, MainScreen.id);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    googleSignIn.onCurrentUserChanged.listen((accout) {
+      handleSignIn(accout);
+    }, onError: (e) {
+      print(e);
+    });
+
+    googleSignIn.signInSilently(suppressErrors: false).then((account) {
+      handleSignIn(account);
+    }, onError: (e) {
+      print(e);
+    });
+  }
+
+  login() {
+    googleSignIn.signIn();
+  }
+
+  logout() {
+    googleSignIn.signOut();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,26 +88,21 @@ class StartScreen extends StatelessWidget {
               padding: EdgeInsets.fromLTRB(0, 100, 0, 120),
               child: Image.asset('assets/images/startscreenimage.png'),
             ),
-            Hero(
-              tag: 'signin',
-              child: StartScreenButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, LoginScreen.id);
-                },
-                text: 'Sign In',
+            GestureDetector(
+              onTap: login,
+              child: Container(
+                height: 60,
                 width: 300,
+                decoration: BoxDecoration(
+                  color: Colors.black,
+                  borderRadius: BorderRadius.circular(50),
+                  image: DecorationImage(
+                    fit: BoxFit.cover,
+                    image: AssetImage('assets/images/google_signin_button.png'),
+                  ),
+                ),
               ),
-            ),
-            Hero(
-              tag: 'signup',
-              child: StartScreenButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, RegistrationScreen.id);
-                },
-                text: 'Sign Up',
-                width: 300,
-              ),
-            ),
+            )
           ],
         ),
       ),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wickwood/components/constants.dart';
-import 'package:wickwood/components/product_class.dart';
+import 'package:wickwood/models/product_class.dart';
 import 'package:wickwood/widgets/mainscreen/bottom_sheet_product.dart';
 
 class ProductBox extends StatelessWidget {
@@ -14,7 +14,7 @@ class ProductBox extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 10),
       child: Container(
         height: 200,
-        width: 170,
+        width: 230,
         decoration: BoxDecoration(color: kBrownBGColor),
         child: Stack(
           children: <Widget>[
@@ -31,12 +31,13 @@ class ProductBox extends StatelessWidget {
                   ],
                 ),
                 height: 140,
-                width: 170,
+                width: 230,
               ),
             ),
             //Product Image
             Positioned(
               top: 3,
+              right: 40,
               child: Container(
                 width: 170,
                 alignment: Alignment.center,
@@ -53,15 +54,13 @@ class ProductBox extends StatelessWidget {
             //Button
             Positioned(
               right: -10,
-              bottom: 17,
-              child: RaisedButton(
-                shape: CircleBorder(),
-                color: kButtonColor,
-                child: Icon(
+              bottom: 10,
+              child: Buttons(
+                icons: Icon(
                   Icons.expand_more,
                   color: kOrangeColor,
                 ),
-                onPressed: () {
+                function: () {
                   showModalBottomSheet(
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30),
@@ -74,10 +73,69 @@ class ProductBox extends StatelessWidget {
                   );
                 },
               ),
-            )
+            ),
+            Positioned(
+              right: 35,
+              bottom: 10,
+              child: Buttons(
+                icons: Icon(
+                  Icons.favorite_border,
+                  color: kOrangeColor,
+                ),
+                function: () {
+                  showModalBottomSheet(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                    backgroundColor: Colors.orange[200],
+                    context: context,
+                    builder: (context) => ProductBottomSheet(
+                      product: product,
+                    ),
+                  );
+                },
+              ),
+            ),
+            Positioned(
+              right: 80,
+              bottom: 10,
+              child: Buttons(
+                icons: Icon(
+                  Icons.message,
+                  color: kOrangeColor,
+                ),
+                function: () {
+                  showModalBottomSheet(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                    backgroundColor: Colors.orange[200],
+                    context: context,
+                    builder: (context) => ProductBottomSheet(
+                      product: product,
+                    ),
+                  );
+                },
+              ),
+            ),
           ],
         ),
       ),
+    );
+  }
+}
+
+class Buttons extends StatelessWidget {
+  final Function function;
+  final Icon icons;
+  Buttons({this.function, this.icons});
+  @override
+  Widget build(BuildContext context) {
+    return RaisedButton(
+      shape: CircleBorder(),
+      color: kButtonColor,
+      child: icons,
+      onPressed: function,
     );
   }
 }

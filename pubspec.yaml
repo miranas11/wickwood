@@ -15,6 +15,8 @@ dependencies:
   provider: ^4.3.2+2
   modal_progress_hud: ^0.1.3
   firebase_auth: ^0.18.1+1
+  cloud_firestore: ^0.14.1+3
+  google_sign_in: ^4.5.5
 
 
 dev_dependencies:
@@ -27,6 +29,7 @@ flutter:
 
   assets:
     - assets/images/
+    - assets/images/google_signin_button.png
     - assets/images/chairs/
     - assets/images/icons/
     - assets/images/sofas/

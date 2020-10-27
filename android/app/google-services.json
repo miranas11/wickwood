@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "980102544567-uc6cu4ni649aqdmd5c59thf8ceoqi8g8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.wickwood",
+            "certificate_hash": "23ed25588e2a6d60ff522a48659d6e1434c25839"
+          }
+        },
+        {
           "client_id": "980102544567-n9kp12sv8f9h2g4fequ2jknipcnsatfn.apps.googleusercontent.com",
           "client_type": 3
         }

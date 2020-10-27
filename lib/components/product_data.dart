@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:wickwood/components/product_class.dart';
+import 'package:wickwood/models/product_class.dart';
 
 class ProductData extends ChangeNotifier {
   static String chair = 'chairs';
