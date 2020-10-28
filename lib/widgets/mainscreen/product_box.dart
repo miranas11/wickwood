@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:wickwood/components/constants.dart';
@@ -6,8 +8,10 @@ import 'package:wickwood/widgets/mainscreen/bottom_sheet_product.dart';
 
 class ProductBox extends StatelessWidget {
   final Product product;
+  final bool isPreview;
+  final File file;
 
-  ProductBox({this.product});
+  ProductBox({this.product, this.isPreview = false, this.file = null});
   @override
   Widget build(BuildContext context) {
     //for the stack
@@ -43,7 +47,9 @@ class ProductBox extends StatelessWidget {
                 alignment: Alignment.center,
                 child: Image(
                   height: 120,
-                  image: CachedNetworkImageProvider(product.mediaUrl),
+                  image: isPreview
+                      ? FileImage(file)
+                      : CachedNetworkImageProvider(product.mediaUrl),
                 ),
               ),
             ),

@@ -5,6 +5,7 @@ class Product {
   final double price;
   final String category;
   final String productId;
+  int quantity;
   Product({
     this.name = '',
     this.material = '',
@@ -12,6 +13,7 @@ class Product {
     this.category,
     this.mediaUrl = '',
     this.productId = '',
+    this.quantity = 1,
   });
 
   factory Product.fromDocument(doc) {
@@ -22,6 +24,7 @@ class Product {
       category: doc['category'],
       mediaUrl: doc['mediaUrl'],
       productId: doc['productId'],
+      quantity: doc['quantity'],
     );
   }
 }

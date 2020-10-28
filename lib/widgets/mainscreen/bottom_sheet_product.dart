@@ -1,13 +1,47 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:wickwood/components/constants.dart';
 import 'package:wickwood/models/product_class.dart';
-import 'package:wickwood/widgets/login_registration/start_screen_button.dart';
+import 'package:wickwood/screens/start_screen.dart';
+import 'package:wickwood/widgets/start_screen_button.dart';
 
 class ProductBottomSheet extends StatelessWidget {
   final Product product;
 
   ProductBottomSheet({this.product});
+
+  addtoCart() async {
+    int quantity;
+    try {
+      DocumentSnapshot doc = await cartRef
+          .doc(currentUser.id)
+          .collection('cartitems')
+          .doc(product.productId)
+          .get();
+      quantity = doc['quantity'];
+    } catch (e) {
+      quantity = 0;
+    }
+    if (quantity == 9) {
+      quantity = 9;
+    }
+
+    cartRef
+        .doc(currentUser.id)
+        .collection('cartitems')
+        .doc(product.productId)
+        .set({
+      'material': product.material,
+      'category': product.category,
+      'name': product.name,
+      'price': product.price,
+      'productId': product.productId,
+      'mediaUrl': product.mediaUrl,
+      'quantity': quantity + 1,
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -67,8 +101,7 @@ class ProductBottomSheet extends StatelessWidget {
               horizontalpadding: 30,
               text: 'Add To Cart',
               width: 100,
-              //TODO
-              onPressed: null,
+              onPressed: addtoCart,
             ),
           ),
           SizedBox(

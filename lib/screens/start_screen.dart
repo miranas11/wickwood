@@ -4,12 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:wickwood/components/constants.dart';
 import 'package:wickwood/models/user.dart';
 import 'package:wickwood/screens/main_screen.dart';
-import 'package:wickwood/widgets/login_registration/logo.dart';
+import 'package:wickwood/widgets/logo.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 final GoogleSignIn googleSignIn = GoogleSignIn();
 final userRef = FirebaseFirestore.instance.collection('users');
 final productRef = FirebaseFirestore.instance.collection('products');
+final cartRef = FirebaseFirestore.instance.collection('cart');
 final idRef = FirebaseFirestore.instance.collection('ID');
 final StorageReference storageRef = FirebaseStorage.instance.ref();
 User currentUser;

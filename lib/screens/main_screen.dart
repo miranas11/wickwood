@@ -33,10 +33,19 @@ class _MainScreenState extends State<MainScreen> {
     getallProducts();
   }
 
+  clearallLists() {
+    chairList.clear();
+    bedList.clear();
+    sofaList.clear();
+    cupBoardList.clear();
+    tableList.clear();
+  }
+
   getallProducts() async {
     setState(() {
       isLoading = true;
     });
+    clearallLists();
     QuerySnapshot snapshot = await productRef.get();
     for (var v in snapshot.docs) {
       String category = v['category'];
@@ -47,13 +56,13 @@ class _MainScreenState extends State<MainScreen> {
       if (category == 'chair') {
         chairList.add(newProduct);
       } else if (category == 'bed') {
-        chairList.add(newProduct);
+        bedList.add(newProduct);
       } else if (category == 'sofa') {
         sofaList.add(newProduct);
       } else if (category == 'cupboard') {
         cupBoardList.add(newProduct);
       } else if (category == 'table') {
-        cupBoardList.add(newProduct);
+        tableList.add(newProduct);
       }
     }
     setState(() {
@@ -82,9 +91,11 @@ class _MainScreenState extends State<MainScreen> {
           GestureDetector(
             onTap: () {
               Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => UploadProductScreen()));
+                context,
+                MaterialPageRoute(
+                  builder: (context) => UploadProductScreen(),
+                ),
+              ).then((_) => getallProducts());
             },
             child: Icon(
               Icons.add,

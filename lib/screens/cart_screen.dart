@@ -1,6 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:wickwood/components/constants.dart';
-import 'package:wickwood/widgets/login_registration/start_screen_button.dart';
+import 'package:wickwood/models/product_class.dart';
+import 'package:wickwood/screens/start_screen.dart';
+import 'package:wickwood/widgets/cartscreen/cart_box.dart';
+import 'package:wickwood/widgets/start_screen_button.dart';
 import 'package:wickwood/widgets/cartscreen/address_widget.dart';
 
 class CartScreen extends StatefulWidget {
@@ -10,8 +15,38 @@ class CartScreen extends StatefulWidget {
   _CartScreenState createState() => _CartScreenState();
 }
 
+List<CartProductBox> cartList = [];
+
 class _CartScreenState extends State<CartScreen> {
-  Widget onScreenWidget = null;
+  bool isLoading;
+
+  @override
+  void initState() {
+    super.initState();
+    getcartitems();
+  }
+
+  getcartitems() async {
+    setState(() {
+      isLoading = true;
+    });
+    QuerySnapshot snapshot =
+        await cartRef.doc(currentUser.id).collection('cartitems').get();
+    for (var v in snapshot.docs) {
+      Product product = Product.fromDocument(v);
+
+      cartList.add(
+        CartProductBox(product: product),
+      );
+    }
+    setState(() {
+      isLoading = false;
+    });
+  }
+
+  int getcartlength() {
+    return cartList.length;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +79,20 @@ class _CartScreenState extends State<CartScreen> {
             SizedBox(
               height: 10,
             ),
-            onScreenWidget,
+            Expanded(
+              child: isLoading
+                  ? Center(
+                      child: SpinKitRipple(
+                        color: kButtonColor,
+                        size: 100,
+                      ),
+                    )
+                  : Container(
+                      child: ListView(
+                        children: cartList,
+                      ),
+                    ),
+            ),
             Column(
               children: <Widget>[
                 End2EndText(
@@ -66,11 +114,7 @@ class _CartScreenState extends State<CartScreen> {
               padding: EdgeInsets.all(10),
               child: StartScreenButton(
                 text: 'Proceed',
-                onPressed: () {
-                  setState(() {
-                    onScreenWidget = AddressWidget();
-                  });
-                },
+                onPressed: () => print('proceed'),
                 width: 100,
                 horizontalpadding: 30,
               ),

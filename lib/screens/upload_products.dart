@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:wickwood/components/constants.dart';
 import 'package:wickwood/models/product_class.dart';
-import 'package:wickwood/widgets/login_registration/input_field.dart';
+import 'package:wickwood/widgets/input_field.dart';
 import 'package:wickwood/widgets/mainscreen/product_box.dart';
 import 'start_screen.dart';
 
@@ -25,6 +25,7 @@ class _UploadProductScreenState extends State<UploadProductScreen> {
   File file;
   int id;
   bool seePreview = false;
+  bool isPreview = false;
   SnackBar imageSelected = SnackBar(
     content: Padding(
       padding: const EdgeInsets.only(left: 8.0, bottom: 3),
@@ -59,10 +60,13 @@ class _UploadProductScreenState extends State<UploadProductScreen> {
         await ImagePicker().getImage(source: ImageSource.gallery);
     if (tempfile != null) {
       _scaffoldKey.currentState.showSnackBar(imageSelected);
+      setState(() {
+        file = File(tempfile.path);
+      });
+      setState(() {
+        isPreview = true;
+      });
     }
-    setState(() {
-      file = File(tempfile.path);
-    });
   }
 
   refreshPreview() {
@@ -85,6 +89,7 @@ class _UploadProductScreenState extends State<UploadProductScreen> {
       'productId': '$category$id',
       'mediaUrl': mediaUrl,
       'likes': {},
+      'quantity': 0,
     });
     idRef.doc(category).set({'id': id + 1});
     _scaffoldKey.currentState.showSnackBar(productUploaded);
@@ -219,6 +224,8 @@ class _UploadProductScreenState extends State<UploadProductScreen> {
                       alignment: Alignment.center,
                       child: Center(
                         child: ProductBox(
+                          isPreview: isPreview,
+                          file: file,
                           product: Product(
                               name: name,
                               material: material,

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:wickwood/widgets/login_registration/input_field.dart';
+import 'package:wickwood/widgets/input_field.dart';
 
 class AddressWidget extends StatelessWidget {
   @override
