@@ -1,8 +1,7 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:wickwood/components/constants.dart';
 import 'package:wickwood/models/product_class.dart';
-import 'package:wickwood/components/product_data.dart';
 import 'package:wickwood/widgets/login_registration/start_screen_button.dart';
 
 class ProductBottomSheet extends StatelessWidget {
@@ -31,8 +30,7 @@ class ProductBottomSheet extends StatelessWidget {
                 ),
               ),
               child: Image(
-                image: AssetImage(
-                    'assets/images/${product.category}/${product.image}.png'),
+                image: CachedNetworkImageProvider(product.mediaUrl),
               ),
             ),
           ),
@@ -69,12 +67,8 @@ class ProductBottomSheet extends StatelessWidget {
               horizontalpadding: 30,
               text: 'Add To Cart',
               width: 100,
-              onPressed: () {
-                Provider.of<ProductData>(context, listen: false).addtocart(
-                  product,
-                );
-                Navigator.pop(context);
-              },
+              //TODO
+              onPressed: null,
             ),
           ),
           SizedBox(

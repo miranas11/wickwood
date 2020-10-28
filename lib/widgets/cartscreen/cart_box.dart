@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:wickwood/components/constants.dart';
 import 'package:wickwood/models/product_class.dart';
-import 'package:wickwood/components/product_data.dart';
 
 class CartProductBox extends StatelessWidget {
   final Product product;
@@ -28,8 +26,7 @@ class CartProductBox extends StatelessWidget {
               ],
             ),
             child: Image(
-              image: AssetImage(
-                  'assets/images/${product.category}/${product.image}.png'),
+              image: NetworkImage(product.mediaUrl),
             ),
           ),
 
@@ -73,10 +70,7 @@ class CartProductBox extends StatelessWidget {
                 shape: CircleBorder(
                   side: BorderSide(color: kOrangeColor),
                 ),
-                onPressed: () {
-                  Provider.of<ProductData>(context, listen: false)
-                      .removefromCart(product);
-                },
+                onPressed: null,
               )
             ],
           ),

@@ -1,10 +1,14 @@
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:wickwood/components/constants.dart';
+import 'package:wickwood/models/product_class.dart';
 import 'package:wickwood/screens/cart_screen.dart';
+import 'package:wickwood/screens/upload_products.dart';
+import 'package:wickwood/widgets/mainscreen/product_box.dart';
 import 'package:wickwood/widgets/mainscreen/slogan.dart';
 import 'package:wickwood/widgets/mainscreen/categorywidget.dart';
-import 'package:wickwood/widgets/mainscreen/product_listview.dart';
+import 'start_screen.dart';
 
 // ignore: must_be_immutable
 class MainScreen extends StatefulWidget {
@@ -15,25 +19,46 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  final _auth = FirebaseAuth.instance;
+  bool isLoading = true;
 
-  User loggedinUser;
-
-  void getCurrentUser() async {
-    try {
-      final user = _auth.currentUser;
-      if (user != null) {
-        loggedinUser = user;
-      }
-    } catch (e) {
-      print(e);
-    }
-  }
+  List<ProductBox> chairList = [];
+  List<ProductBox> sofaList = [];
+  List<ProductBox> cupBoardList = [];
+  List<ProductBox> bedList = [];
+  List<ProductBox> tableList = [];
 
   @override
   void initState() {
     super.initState();
-    getCurrentUser();
+    getallProducts();
+  }
+
+  getallProducts() async {
+    setState(() {
+      isLoading = true;
+    });
+    QuerySnapshot snapshot = await productRef.get();
+    for (var v in snapshot.docs) {
+      String category = v['category'];
+
+      ProductBox newProduct = ProductBox(
+        product: Product.fromDocument(v),
+      );
+      if (category == 'chair') {
+        chairList.add(newProduct);
+      } else if (category == 'bed') {
+        chairList.add(newProduct);
+      } else if (category == 'sofa') {
+        sofaList.add(newProduct);
+      } else if (category == 'cupboard') {
+        cupBoardList.add(newProduct);
+      } else if (category == 'table') {
+        cupBoardList.add(newProduct);
+      }
+    }
+    setState(() {
+      isLoading = false;
+    });
   }
 
   @override
@@ -54,14 +79,30 @@ class _MainScreenState extends State<MainScreen> {
           ),
         ),
         actions: <Widget>[
-          FlatButton(
-            onPressed: () {
-              Navigator.pushNamed(context, CartScreen.id);
+          GestureDetector(
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => UploadProductScreen()));
             },
             child: Icon(
-              Icons.shopping_cart,
+              Icons.add,
               color: kButtonColor,
               size: 30,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20.0),
+            child: GestureDetector(
+              onTap: () {
+                Navigator.pushNamed(context, CartScreen.id);
+              },
+              child: Icon(
+                Icons.shopping_cart,
+                color: kButtonColor,
+                size: 30,
+              ),
             ),
           )
         ],
@@ -71,41 +112,69 @@ class _MainScreenState extends State<MainScreen> {
         child: Column(
           children: <Widget>[
             Slogan(),
-            Expanded(
-              child: Container(
-                child: ListView(
-                  children: <Widget>[
-                    CategoryWidget(
-                      image: 'chair',
-                      text: 'Chairs',
+            isLoading
+                ? Expanded(
+                    child: Center(
+                      child: SpinKitRipple(
+                        size: 100,
+                        color: kButtonColor,
+                      ),
                     ),
-                    ChairListView(),
-                    CategoryWidget(
-                      image: 'sofa',
-                      text: 'Sofas',
+                  )
+                : Expanded(
+                    child: Container(
+                      child: ListView(
+                        children: <Widget>[
+                          CategoryWidget(
+                            image: 'chair',
+                            text: 'Chairs',
+                          ),
+                          ProductList(list: chairList),
+                          CategoryWidget(
+                            image: 'sofa',
+                            text: 'Sofas',
+                          ),
+                          ProductList(
+                            list: sofaList,
+                          ),
+                          CategoryWidget(
+                            image: 'cupboard',
+                            text: 'Cupboards',
+                          ),
+                          ProductList(list: cupBoardList),
+                          CategoryWidget(
+                            image: 'bed',
+                            text: 'Beds',
+                          ),
+                          ProductList(list: bedList),
+                          CategoryWidget(
+                            image: 'table',
+                            text: 'Tables',
+                          ),
+                          ProductList(list: tableList),
+                        ],
+                      ),
                     ),
-                    SofaListView(),
-                    CategoryWidget(
-                      image: 'cupboard',
-                      text: 'Cupboards',
-                    ),
-                    CupBoardListView(),
-                    CategoryWidget(
-                      image: 'bed',
-                      text: 'Beds',
-                    ),
-                    BedListView(),
-                    CategoryWidget(
-                      image: 'table',
-                      text: 'Tables',
-                    ),
-                    TableListView(),
-                  ],
-                ),
-              ),
-            )
+                  )
           ],
         ),
+      ),
+    );
+  }
+}
+
+class ProductList extends StatelessWidget {
+  final List<ProductBox> list;
+
+  ProductList({this.list});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 200,
+      child: ListView(
+        scrollDirection: Axis.horizontal,
+        children: list,
       ),
     );
   }

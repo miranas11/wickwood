@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:wickwood/components/constants.dart';
-import 'package:wickwood/components/product_data.dart';
 import 'package:wickwood/widgets/login_registration/start_screen_button.dart';
-import 'package:wickwood/widgets/mainscreen/product_listview.dart';
 import 'package:wickwood/widgets/cartscreen/address_widget.dart';
 
 class CartScreen extends StatefulWidget {
@@ -14,12 +11,11 @@ class CartScreen extends StatefulWidget {
 }
 
 class _CartScreenState extends State<CartScreen> {
-  Widget onScreenWidget = CartListView();
+  Widget onScreenWidget = null;
 
   @override
   Widget build(BuildContext context) {
-    double totalvalue = double.parse(
-        (Provider.of<ProductData>(context).getTotalPrice()).toStringAsFixed(2));
+    double totalvalue = 100;
     return Scaffold(
       backgroundColor: Colors.white,
       extendBodyBehindAppBar: true,

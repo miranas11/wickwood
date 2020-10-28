@@ -10,24 +10,44 @@ class InputField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 10),
-      child: TextField(
-        onChanged: (newvalue) {
-          updateValue(newvalue);
-        },
-        style: TextStyle(
-          color: kButtonColor,
-        ),
-        obscureText: isPassword,
-        textAlign: TextAlign.center,
-        decoration: InputDecoration(
-          isDense: true,
-          enabledBorder: UnderlineInputBorder(
-            borderSide: BorderSide(color: kButtonColor, width: 3),
-            borderRadius: BorderRadius.circular(30),
+      padding: EdgeInsets.symmetric(vertical: 20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            labeltext,
+            style: TextStyle(
+              color: Colors.black,
+              fontWeight: FontWeight.w500,
+            ),
           ),
-          labelText: labeltext,
-        ),
+          SizedBox(
+            height: 5,
+          ),
+          TextFormField(
+            validator: (value) {
+              if (value.trim().length < 1) {
+                return 'Type Something';
+              }
+              return null;
+            },
+            onChanged: (newvalue) {
+              updateValue(newvalue);
+            },
+            style: TextStyle(
+              color: kButtonColor,
+            ),
+            obscureText: isPassword,
+            textAlign: TextAlign.center,
+            decoration: InputDecoration(
+              isDense: true,
+              enabledBorder: UnderlineInputBorder(
+                borderSide: BorderSide(color: kButtonColor, width: 3),
+                borderRadius: BorderRadius.circular(30),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:wickwood/components/constants.dart';
 import 'package:wickwood/models/product_class.dart';
@@ -34,7 +35,6 @@ class ProductBox extends StatelessWidget {
                 width: 230,
               ),
             ),
-            //Product Image
             Positioned(
               top: 3,
               right: 40,
@@ -43,8 +43,7 @@ class ProductBox extends StatelessWidget {
                 alignment: Alignment.center,
                 child: Image(
                   height: 120,
-                  image: AssetImage(
-                      'assets/images/${product.category}/${product.image}.png'),
+                  image: CachedNetworkImageProvider(product.mediaUrl),
                 ),
               ),
             ),

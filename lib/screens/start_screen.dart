@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:wickwood/components/constants.dart';
 import 'package:wickwood/models/user.dart';
@@ -8,6 +9,9 @@ import 'package:google_sign_in/google_sign_in.dart';
 
 final GoogleSignIn googleSignIn = GoogleSignIn();
 final userRef = FirebaseFirestore.instance.collection('users');
+final productRef = FirebaseFirestore.instance.collection('products');
+final idRef = FirebaseFirestore.instance.collection('ID');
+final StorageReference storageRef = FirebaseStorage.instance.ref();
 User currentUser;
 final DateTime timestamp = DateTime.now();
 
@@ -22,10 +26,6 @@ class _StartScreenState extends State<StartScreen> {
   handleSignIn(GoogleSignInAccount account) {
     if (account != null) {
       createUserInFirestore();
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => MainScreen()),
-      );
     }
   }
 
