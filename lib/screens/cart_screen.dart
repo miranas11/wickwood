@@ -15,14 +15,21 @@ class CartScreen extends StatefulWidget {
   _CartScreenState createState() => _CartScreenState();
 }
 
-List<CartProductBox> cartList = [];
-
 class _CartScreenState extends State<CartScreen> {
   bool isLoading;
+  List<CartProductBox> cartList = [];
 
   @override
   void initState() {
     super.initState();
+    getcartitems();
+  }
+
+  refreshPage() {
+    setState(() {
+      isLoading = true;
+    });
+    cartList.clear();
     getcartitems();
   }
 
@@ -36,7 +43,10 @@ class _CartScreenState extends State<CartScreen> {
       Product product = Product.fromDocument(v);
 
       cartList.add(
-        CartProductBox(product: product),
+        CartProductBox(
+          product: product,
+          function: refreshPage,
+        ),
       );
     }
     setState(() {

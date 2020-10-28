@@ -2,15 +2,14 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:wickwood/components/constants.dart';
 import 'package:wickwood/models/product_class.dart';
-import 'package:wickwood/screens/cart_screen.dart';
 import 'package:wickwood/screens/start_screen.dart';
-import 'package:wickwood/widgets/mainscreen/product_box.dart';
 
 class CartProductBox extends StatefulWidget {
   final Product product;
   final double totalPrice;
+  final Function function;
 
-  CartProductBox({this.product, this.totalPrice});
+  CartProductBox({this.product, this.totalPrice, this.function});
 
   @override
   _CartProductBoxState createState() => _CartProductBoxState();
@@ -40,9 +39,8 @@ class _CartProductBoxState extends State<CartProductBox> {
         .collection('cartitems')
         .doc(widget.product.productId)
         .delete();
-    cartList.remove(this.widget);
-    Navigator.pop(context);
-    Navigator.pushNamed(context, CartScreen.id);
+
+    widget.function();
   }
 
   @override
