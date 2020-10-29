@@ -18,7 +18,7 @@ class ProductBox extends StatefulWidget {
       {this.product,
       this.showImage = true,
       this.isPreview = false,
-      this.file = null,
+      this.file,
       this.disablebutton = false});
 
   @override

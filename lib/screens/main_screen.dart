@@ -21,6 +21,7 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   bool isLoading = true;
+  bool isAdmin = false;
 
   List<ProductBox> chairList = [];
   List<ProductBox> sofaList = [];
@@ -32,6 +33,9 @@ class _MainScreenState extends State<MainScreen> {
   void initState() {
     super.initState();
     getallProducts();
+    if (currentUser.email == 'anasmir24@gmail.com') {
+      isAdmin = true;
+    }
   }
 
   clearallLists() {
@@ -99,21 +103,23 @@ class _MainScreenState extends State<MainScreen> {
               ),
             ),
           ),
-          GestureDetector(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => UploadProductScreen(),
-                ),
-              ).then((_) => getallProducts());
-            },
-            child: Icon(
-              Icons.add,
-              color: kButtonColor,
-              size: 30,
-            ),
-          ),
+          isAdmin
+              ? GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => UploadProductScreen(),
+                      ),
+                    ).then((_) => getallProducts());
+                  },
+                  child: Icon(
+                    Icons.add,
+                    color: kButtonColor,
+                    size: 30,
+                  ),
+                )
+              : Text(''),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20.0),
             child: GestureDetector(
