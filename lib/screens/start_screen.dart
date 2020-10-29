@@ -12,6 +12,7 @@ final userRef = FirebaseFirestore.instance.collection('users');
 final productRef = FirebaseFirestore.instance.collection('products');
 final cartRef = FirebaseFirestore.instance.collection('cart');
 final idRef = FirebaseFirestore.instance.collection('ID');
+final commentRef = FirebaseFirestore.instance.collection('comments');
 final StorageReference storageRef = FirebaseStorage.instance.ref();
 User currentUser;
 final DateTime timestamp = DateTime.now();

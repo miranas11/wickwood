@@ -6,11 +6,11 @@ class InputField extends StatelessWidget {
   final bool isPassword;
   final Function updateValue;
 
-  InputField({this.labeltext, this.isPassword = false, this.updateValue});
+  InputField({this.labeltext = '', this.isPassword = false, this.updateValue});
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 20),
+      padding: EdgeInsets.symmetric(vertical: 10),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

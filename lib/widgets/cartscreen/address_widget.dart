@@ -72,7 +72,7 @@ class DetailText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(left: 50, top: 35),
+      padding: const EdgeInsets.only(left: 50, top: 20),
       child: Text(
         text,
         style: TextStyle(

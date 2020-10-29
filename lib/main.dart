@@ -30,6 +30,7 @@ class MyApp extends StatelessWidget {
         StartScreen.id: (context) => StartScreen(),
         MainScreen.id: (context) => MainScreen(),
         CartScreen.id: (context) => CartScreen(),
+        // CommentScreen.id: (context) => CommentScreen(),
       },
     );
   }

@@ -1,19 +1,56 @@
 import 'dart:io';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:wickwood/components/constants.dart';
 import 'package:wickwood/models/product_class.dart';
+import 'package:wickwood/screens/comment_screen.dart';
+import 'package:wickwood/screens/start_screen.dart';
 import 'package:wickwood/widgets/mainscreen/bottom_sheet_product.dart';
 
-class ProductBox extends StatelessWidget {
+class ProductBox extends StatefulWidget {
   final Product product;
   final bool isPreview;
   final File file;
+  final disablebutton;
+  final bool showImage;
 
-  ProductBox({this.product, this.isPreview = false, this.file = null});
+  ProductBox(
+      {this.product,
+      this.showImage = true,
+      this.isPreview = false,
+      this.file = null,
+      this.disablebutton = false});
+
+  @override
+  _ProductBoxState createState() => _ProductBoxState();
+}
+
+class _ProductBoxState extends State<ProductBox> {
+  bool isLiked;
+  String userID = currentUser.id;
+
+  handlelikes() {
+    bool _isLiked = widget.product.likes[userID] == true;
+    if (_isLiked) {
+      productRef.doc(widget.product.productId).update({'likes.$userID': false});
+      setState(() {
+        isLiked = false;
+        widget.product.likes[userID] = false;
+      });
+    } else if (!_isLiked) {
+      productRef.doc(widget.product.productId).update({'likes.$userID': true});
+      setState(() {
+        isLiked = true;
+        widget.product.likes[userID] = true;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    widget.isPreview
+        ? isLiked = false
+        : isLiked = widget.product.likes[userID] == true;
     //for the stack
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -45,18 +82,21 @@ class ProductBox extends StatelessWidget {
               child: Container(
                 width: 170,
                 alignment: Alignment.center,
-                child: Image(
-                  height: 120,
-                  image: isPreview
-                      ? FileImage(file)
-                      : CachedNetworkImageProvider(product.mediaUrl),
-                ),
+                child: widget.showImage
+                    ? Image(
+                        height: 120,
+                        image: widget.isPreview
+                            ? FileImage(widget.file)
+                            : CachedNetworkImageProvider(
+                                widget.product.mediaUrl),
+                      )
+                    : Text(''),
               ),
             ),
             ProductDetail(
-              product: product,
+              product: widget.product,
             ),
-            //Button
+            //see detail button
             Positioned(
               right: -10,
               bottom: 10,
@@ -66,41 +106,36 @@ class ProductBox extends StatelessWidget {
                   color: kOrangeColor,
                 ),
                 function: () {
-                  showModalBottomSheet(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                    backgroundColor: Colors.orange[200],
-                    context: context,
-                    builder: (context) => ProductBottomSheet(
-                      product: product,
-                    ),
-                  );
+                  !widget.disablebutton
+                      ? showModalBottomSheet(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                          backgroundColor: Colors.orange[200],
+                          context: context,
+                          builder: (context) => ProductBottomSheet(
+                            product: widget.product,
+                          ),
+                        )
+                      : print('');
                 },
               ),
             ),
+            //like button
             Positioned(
               right: 35,
               bottom: 10,
               child: Buttons(
                 icons: Icon(
-                  Icons.favorite_border,
-                  color: kOrangeColor,
+                  isLiked ? Icons.favorite : Icons.favorite_border,
+                  color: isLiked ? Colors.red : kOrangeColor,
                 ),
                 function: () {
-                  showModalBottomSheet(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                    backgroundColor: Colors.orange[200],
-                    context: context,
-                    builder: (context) => ProductBottomSheet(
-                      product: product,
-                    ),
-                  );
+                  !widget.disablebutton ? handlelikes() : print('');
                 },
               ),
             ),
+            //comment button
             Positioned(
               right: 80,
               bottom: 10,
@@ -110,16 +145,16 @@ class ProductBox extends StatelessWidget {
                   color: kOrangeColor,
                 ),
                 function: () {
-                  showModalBottomSheet(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                    backgroundColor: Colors.orange[200],
-                    context: context,
-                    builder: (context) => ProductBottomSheet(
-                      product: product,
-                    ),
-                  );
+                  !widget.disablebutton
+                      ? Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => CommentScreen(
+                              productId: widget.product.productId,
+                            ),
+                          ),
+                        )
+                      : print('');
                 },
               ),
             ),

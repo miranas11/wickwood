@@ -16,55 +16,26 @@ class UploadProductScreen extends StatefulWidget {
 }
 
 class _UploadProductScreenState extends State<UploadProductScreen> {
-  final _scaffoldKey = GlobalKey<ScaffoldState>();
+  final _scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
   String name;
   String material;
   String category;
   double price;
-  String productId;
   File file;
   int id;
   bool seePreview = false;
-  bool isPreview = false;
-  SnackBar imageSelected = SnackBar(
-    content: Padding(
-      padding: const EdgeInsets.only(left: 8.0, bottom: 3),
-      child: Text(
-        'image selected',
-        style: TextStyle(color: kButtonColor),
-      ),
-    ),
-    elevation: 5,
-    backgroundColor: kOrangeColor,
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(30),
-    ),
-  );
-  SnackBar productUploaded = SnackBar(
-    content: Padding(
-      padding: const EdgeInsets.only(left: 8.0, bottom: 3),
-      child: Text(
-        'Product Uploaded',
-        style: TextStyle(color: kButtonColor),
-      ),
-    ),
-    elevation: 5,
-    backgroundColor: kOrangeColor,
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(30),
-    ),
-  );
+  bool showImage = false;
+
   selectImagefromGallery() async {
-    print('yoo');
+    print('fdsfasdfasdfasdfdafdayoo');
     PickedFile tempfile =
         await ImagePicker().getImage(source: ImageSource.gallery);
     if (tempfile != null) {
-      _scaffoldKey.currentState.showSnackBar(imageSelected);
       setState(() {
         file = File(tempfile.path);
       });
       setState(() {
-        isPreview = true;
+        showImage = true;
       });
     }
   }
@@ -92,7 +63,6 @@ class _UploadProductScreenState extends State<UploadProductScreen> {
       'quantity': 0,
     });
     idRef.doc(category).set({'id': id + 1});
-    _scaffoldKey.currentState.showSnackBar(productUploaded);
   }
 
   Future<String> uploadImage(imagefile) async {
@@ -141,7 +111,7 @@ class _UploadProductScreenState extends State<UploadProductScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: _scaffoldKey,
+      key: _scaffoldMessengerKey,
       backgroundColor: kBrownBGColor,
       appBar: AppBar(
         title: Text('Upload Product'),
@@ -224,7 +194,9 @@ class _UploadProductScreenState extends State<UploadProductScreen> {
                       alignment: Alignment.center,
                       child: Center(
                         child: ProductBox(
-                          isPreview: isPreview,
+                          showImage: showImage,
+                          disablebutton: true,
+                          isPreview: true,
                           file: file,
                           product: Product(
                               name: name,

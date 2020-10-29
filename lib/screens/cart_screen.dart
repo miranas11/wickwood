@@ -16,6 +16,8 @@ class CartScreen extends StatefulWidget {
 }
 
 class _CartScreenState extends State<CartScreen> {
+  double totalPrice = 0;
+  bool isAddressPage = false;
   bool isLoading;
   List<CartProductBox> cartList = [];
 
@@ -34,12 +36,14 @@ class _CartScreenState extends State<CartScreen> {
   }
 
   getcartitems() async {
+    totalPrice = 0;
     setState(() {
       isLoading = true;
     });
     QuerySnapshot snapshot =
         await cartRef.doc(currentUser.id).collection('cartitems').get();
     for (var v in snapshot.docs) {
+      totalPrice += v['price'];
       Product product = Product.fromDocument(v);
 
       cartList.add(
@@ -49,18 +53,14 @@ class _CartScreenState extends State<CartScreen> {
         ),
       );
     }
+
     setState(() {
       isLoading = false;
     });
   }
 
-  int getcartlength() {
-    return cartList.length;
-  }
-
   @override
   Widget build(BuildContext context) {
-    double totalvalue = 100;
     return Scaffold(
       backgroundColor: Colors.white,
       extendBodyBehindAppBar: true,
@@ -73,41 +73,44 @@ class _CartScreenState extends State<CartScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            //Cart TExt
-            Container(
-              padding: EdgeInsets.all(10),
-              child: Center(
-                child: Text(
-                  'CART',
-                  style: TextStyle(
-                      color: Colors.blue[900],
-                      fontSize: 22,
-                      fontWeight: FontWeight.w600),
-                ),
-              ),
-            ),
+            isAddressPage
+                ? Text('')
+                :
+                //Cart TExt
+                Container(
+                    padding: EdgeInsets.all(10),
+                    child: Center(
+                      child: Text(
+                        'CART',
+                        style: TextStyle(
+                            color: Colors.blue[900],
+                            fontSize: 22,
+                            fontWeight: FontWeight.w600),
+                      ),
+                    ),
+                  ),
             SizedBox(
               height: 10,
             ),
-            Expanded(
-              child: isLoading
-                  ? Center(
-                      child: SpinKitRipple(
-                        color: kButtonColor,
-                        size: 100,
-                      ),
-                    )
-                  : Container(
-                      child: ListView(
-                        children: cartList,
-                      ),
-                    ),
-            ),
+            isAddressPage
+                ? AddressWidget()
+                : Expanded(
+                    child: isLoading
+                        ? Center(
+                            child: SpinKitRipple(
+                              color: kButtonColor,
+                              size: 100,
+                            ),
+                          )
+                        : CartListView(
+                            cartList: cartList,
+                          ),
+                  ),
             Column(
               children: <Widget>[
                 End2EndText(
                   leftText: 'Cost',
-                  rightText: totalvalue,
+                  rightText: totalPrice,
                 ),
                 End2EndText(
                   leftText: 'Tax',
@@ -115,7 +118,7 @@ class _CartScreenState extends State<CartScreen> {
                 ),
                 End2EndText(
                   leftText: 'Total',
-                  rightText: totalvalue,
+                  rightText: totalPrice,
                 ),
               ],
             ),
@@ -124,13 +127,36 @@ class _CartScreenState extends State<CartScreen> {
               padding: EdgeInsets.all(10),
               child: StartScreenButton(
                 text: 'Proceed',
-                onPressed: () => print('proceed'),
+                onPressed: () {
+                  if (isAddressPage) {
+                    print('address page hai');
+                  } else {
+                    setState(() {
+                      isAddressPage = true;
+                    });
+                  }
+                },
                 width: 100,
                 horizontalpadding: 30,
               ),
             )
           ],
         ),
+      ),
+    );
+  }
+}
+
+class CartListView extends StatelessWidget {
+  final List<CartProductBox> cartList;
+
+  CartListView({this.cartList});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: ListView(
+        children: cartList,
       ),
     );
   }

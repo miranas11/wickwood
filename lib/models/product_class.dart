@@ -5,8 +5,10 @@ class Product {
   final double price;
   final String category;
   final String productId;
+  final dynamic likes;
   int quantity;
   Product({
+    this.likes,
     this.name = '',
     this.material = '',
     this.price = 0,
@@ -25,6 +27,21 @@ class Product {
       mediaUrl: doc['mediaUrl'],
       productId: doc['productId'],
       quantity: doc['quantity'],
+      likes: doc['likes'],
     );
+  }
+
+  getlikescount(likes) {
+    if (likes == null) {
+      return 0;
+    }
+    int likescount = 0;
+    likes.values.forEach((val) {
+      if (val == true) {
+        likescount++;
+      }
+    });
+
+    return likescount;
   }
 }

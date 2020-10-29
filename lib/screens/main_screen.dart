@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -76,18 +77,28 @@ class _MainScreenState extends State<MainScreen> {
       appBar: AppBar(
         elevation: 0,
         automaticallyImplyLeading: false,
-        leading: FlatButton(
-          padding: EdgeInsets.only(left: 10),
-          onPressed: null,
+        leading: Padding(
+          padding: EdgeInsets.only(left: 13, top: 10, bottom: 5),
           child: CircleAvatar(
             backgroundColor: kButtonColor,
-            child: Image(
-              height: 30,
-              image: AssetImage('assets/images/usericon.png'),
-            ),
+            backgroundImage: CachedNetworkImageProvider(currentUser.photoUrl),
           ),
         ),
         actions: <Widget>[
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20.0),
+            child: GestureDetector(
+              onTap: () {
+                googleSignIn.signOut();
+                Navigator.popUntil(context, (route) => route.isFirst);
+              },
+              child: Icon(
+                Icons.logout,
+                color: kButtonColor,
+                size: 30,
+              ),
+            ),
+          ),
           GestureDetector(
             onTap: () {
               Navigator.push(
@@ -115,7 +126,7 @@ class _MainScreenState extends State<MainScreen> {
                 size: 30,
               ),
             ),
-          )
+          ),
         ],
       ),
       backgroundColor: kBrownBGColor,
