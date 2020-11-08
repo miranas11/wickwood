@@ -39,6 +39,7 @@ class ProductBottomSheet extends StatelessWidget {
       'productId': product.productId,
       'mediaUrl': product.mediaUrl,
       'quantity': quantity + 1,
+      'likes': {},
     });
   }
 

@@ -8,7 +8,7 @@ class Product {
   final dynamic likes;
   int quantity;
   Product({
-    this.likes,
+    this.likes = '',
     this.name = '',
     this.material = '',
     this.price = 0,

@@ -6,6 +6,7 @@ import 'package:wickwood/components/constants.dart';
 import 'package:wickwood/models/product_class.dart';
 import 'package:wickwood/screens/cart_screen.dart';
 import 'package:wickwood/screens/upload_products.dart';
+import 'package:wickwood/screens/wishlist_screen.dart';
 import 'package:wickwood/widgets/mainscreen/product_box.dart';
 import 'package:wickwood/widgets/mainscreen/slogan.dart';
 import 'package:wickwood/widgets/mainscreen/categorywidget.dart';
@@ -90,7 +91,7 @@ class _MainScreenState extends State<MainScreen> {
         ),
         actions: <Widget>[
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20.0),
+            padding: const EdgeInsets.symmetric(horizontal: 10.0),
             child: GestureDetector(
               onTap: () {
                 googleSignIn.signOut();
@@ -103,25 +104,41 @@ class _MainScreenState extends State<MainScreen> {
               ),
             ),
           ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10.0),
+            child: GestureDetector(
+              onTap: () {
+                Navigator.pushNamed(context, WishlistScreen.id);
+              },
+              child: Icon(
+                Icons.favorite,
+                color: kButtonColor,
+                size: 30,
+              ),
+            ),
+          ),
           isAdmin
-              ? GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => UploadProductScreen(),
-                      ),
-                    ).then((_) => getallProducts());
-                  },
-                  child: Icon(
-                    Icons.add,
-                    color: kButtonColor,
-                    size: 30,
+              ? Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => UploadProductScreen(),
+                        ),
+                      ).then((_) => getallProducts());
+                    },
+                    child: Icon(
+                      Icons.add,
+                      color: kButtonColor,
+                      size: 30,
+                    ),
                   ),
                 )
               : Text(''),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20.0),
+            padding: const EdgeInsets.symmetric(horizontal: 10.0),
             child: GestureDetector(
               onTap: () {
                 Navigator.pushNamed(context, CartScreen.id);

@@ -48,6 +48,7 @@ class _CartScreenState extends State<CartScreen> {
 
       cartList.add(
         CartProductBox(
+          isWishlist: false,
           product: product,
           function: refreshPage,
         ),

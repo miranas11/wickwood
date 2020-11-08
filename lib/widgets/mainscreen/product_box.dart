@@ -29,16 +29,43 @@ class _ProductBoxState extends State<ProductBox> {
   bool isLiked;
   String userID = currentUser.id;
 
+  removefromfirestorewishlist() {
+    wishlistRef
+        .doc(userID)
+        .collection('wishlistitems')
+        .doc(widget.product.productId)
+        .delete();
+  }
+
+  addtofirestorewishlist() {
+    wishlistRef
+        .doc(userID)
+        .collection('wishlistitems')
+        .doc(widget.product.productId)
+        .set({
+      'material': widget.product.material,
+      'category': widget.product.category,
+      'name': widget.product.name,
+      'price': widget.product.price,
+      'productId': widget.product.productId,
+      'mediaUrl': widget.product.mediaUrl,
+      'quantity': 0,
+      'likes': {},
+    });
+  }
+
   handlelikes() {
     bool _isLiked = widget.product.likes[userID] == true;
     if (_isLiked) {
       productRef.doc(widget.product.productId).update({'likes.$userID': false});
+      removefromfirestorewishlist();
       setState(() {
         isLiked = false;
         widget.product.likes[userID] = false;
       });
     } else if (!_isLiked) {
       productRef.doc(widget.product.productId).update({'likes.$userID': true});
+      addtofirestorewishlist();
       setState(() {
         isLiked = true;
         widget.product.likes[userID] = true;

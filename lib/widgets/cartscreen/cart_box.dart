@@ -8,8 +8,10 @@ class CartProductBox extends StatefulWidget {
   final Product product;
   final double totalPrice;
   final Function function;
+  final bool isWishlist;
 
-  CartProductBox({this.product, this.totalPrice, this.function});
+  CartProductBox(
+      {this.product, this.totalPrice, this.function, this.isWishlist});
 
   @override
   _CartProductBoxState createState() => _CartProductBoxState();
@@ -97,50 +99,53 @@ class _CartProductBoxState extends State<CartProductBox> {
                 PriceText(
                   price: widget.product.price,
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Icon(
-                      Icons.close,
-                      color: kOrangeColor,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 20.0),
-                      child: Container(
-                        height: 40,
-                        width: 36,
-                        child: TextField(
-                          controller: quantitycontroller,
-                          maxLength: 1,
-                          textAlign: TextAlign.start,
-                          style: TextStyle(color: Colors.black),
-                          keyboardType: TextInputType.number,
-                          onChanged: (value) {
-                            changequantityinFirestore(int.parse(value));
-                          },
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(),
-                            enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: kButtonColor),
+                !widget.isWishlist
+                    ? Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Icon(
+                            Icons.close,
+                            color: kOrangeColor,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 20.0),
+                            child: Container(
+                              height: 40,
+                              width: 36,
+                              child: TextField(
+                                controller: quantitycontroller,
+                                maxLength: 1,
+                                textAlign: TextAlign.start,
+                                style: TextStyle(color: Colors.black),
+                                keyboardType: TextInputType.number,
+                                onChanged: (value) {
+                                  changequantityinFirestore(int.parse(value));
+                                },
+                                decoration: InputDecoration(
+                                  border: OutlineInputBorder(),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(color: kButtonColor),
+                                  ),
+                                ),
+                              ),
                             ),
                           ),
+                        ],
+                      )
+                    : Text(''),
+                widget.isWishlist
+                    ? Text('')
+                    : RaisedButton(
+                        elevation: 5,
+                        child: Icon(
+                          Icons.delete_outline,
+                          color: kOrangeColor,
                         ),
-                      ),
-                    ),
-                  ],
-                ),
-                RaisedButton(
-                  elevation: 5,
-                  child: Icon(
-                    Icons.delete_outline,
-                    color: kOrangeColor,
-                  ),
-                  color: kButtonColor,
-                  shape: CircleBorder(
-                    side: BorderSide(color: kOrangeColor),
-                  ),
-                  onPressed: deleteproductinFirestore,
-                )
+                        color: kButtonColor,
+                        shape: CircleBorder(
+                          side: BorderSide(color: kOrangeColor),
+                        ),
+                        onPressed: deleteproductinFirestore)
               ],
             ),
           ),

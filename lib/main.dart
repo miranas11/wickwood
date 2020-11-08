@@ -4,6 +4,7 @@ import 'package:wickwood/screens/cart_screen.dart';
 import 'package:wickwood/screens/main_screen.dart';
 import 'package:wickwood/screens/start_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:wickwood/screens/wishlist_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -27,6 +28,7 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: StartScreen.id,
       routes: {
+        WishlistScreen.id: (context) => WishlistScreen(),
         StartScreen.id: (context) => StartScreen(),
         MainScreen.id: (context) => MainScreen(),
         CartScreen.id: (context) => CartScreen(),
