@@ -5,8 +5,10 @@ import 'package:wickwood/components/constants.dart';
 import 'package:wickwood/models/product_class.dart';
 import 'package:wickwood/screens/start_screen.dart';
 import 'package:wickwood/widgets/cartscreen/cart_box.dart';
+import 'package:wickwood/widgets/input_field.dart';
 import 'package:wickwood/widgets/start_screen_button.dart';
-import 'package:wickwood/widgets/cartscreen/address_widget.dart';
+import 'package:mailer/mailer.dart';
+import 'package:mailer/smtp_server.dart';
 
 class CartScreen extends StatefulWidget {
   static const String id = 'cart_screen';
@@ -16,10 +18,47 @@ class CartScreen extends StatefulWidget {
 }
 
 class _CartScreenState extends State<CartScreen> {
+  String address;
+  String pincode;
+  String landmark;
+  String state;
+  String phonenumber;
+  Widget onScreenWidget = Text('');
   double totalPrice = 0;
   bool isAddressPage = false;
   bool isLoading;
+  String buttonText = 'Proceed';
   List<CartProductBox> cartList = [];
+
+  sendmail() async {
+    String orderitemstext = '';
+    String addresstext =
+        address + ', ' + landmark + ', ' + state + ', ' + pincode;
+    int commachecker = 0;
+
+    for (var i in cartList) {
+      orderitemstext = orderitemstext + i.product.name;
+      if (cartList.length != commachecker + 1) {
+        orderitemstext = orderitemstext + ', ';
+        commachecker++;
+      }
+    }
+    String email = 'serioussam24031999@gmail.com';
+    String password = 'messi@10';
+
+    final smtpServer = gmail(email, password);
+
+    final message = Message()
+      ..from = Address(email)
+      ..recipients.add(currentUser.email)
+      ..ccRecipients.add(email)
+      ..subject = 'Order Confirmation'
+      ..text =
+          'Your order for $orderitemstext has been confirmed\nAddress: $addresstext\nContact number: $phonenumber\nTotal Price: $totalPrice';
+
+    final sendReport = await send(message, smtpServer);
+    print('message sent:' + sendReport.toString());
+  }
 
   @override
   void initState() {
@@ -43,7 +82,7 @@ class _CartScreenState extends State<CartScreen> {
     QuerySnapshot snapshot =
         await cartRef.doc(currentUser.id).collection('cartitems').get();
     for (var v in snapshot.docs) {
-      totalPrice += v['price'];
+      totalPrice += v['price'] * v['quantity'];
       Product product = Product.fromDocument(v);
 
       cartList.add(
@@ -60,8 +99,63 @@ class _CartScreenState extends State<CartScreen> {
     });
   }
 
+  Expanded addressWidget() {
+    return Expanded(
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            DetailText(
+              text: 'Address',
+            ),
+            InputField(
+              updateValue: (value) {
+                address = value;
+              },
+            ),
+            DetailText(
+              text: 'Pincode',
+            ),
+            InputField(
+              updateValue: (value) {
+                pincode = value;
+              },
+            ),
+            DetailText(
+              text: 'Landmark',
+            ),
+            InputField(
+              updateValue: (value) {
+                landmark = value;
+              },
+            ),
+            DetailText(
+              text: 'State',
+            ),
+            InputField(
+              updateValue: (value) {
+                state = value;
+              },
+            ),
+            DetailText(
+              text: 'Phone Number',
+            ),
+            InputField(
+              updateValue: (value) {
+                phonenumber = value;
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    !isAddressPage
+        ? onScreenWidget = CartWidget(isLoading: isLoading, cartList: cartList)
+        : print('ee');
     return Scaffold(
       backgroundColor: Colors.white,
       extendBodyBehindAppBar: true,
@@ -93,20 +187,7 @@ class _CartScreenState extends State<CartScreen> {
             SizedBox(
               height: 10,
             ),
-            isAddressPage
-                ? AddressWidget()
-                : Expanded(
-                    child: isLoading
-                        ? Center(
-                            child: SpinKitRipple(
-                              color: kButtonColor,
-                              size: 100,
-                            ),
-                          )
-                        : CartListView(
-                            cartList: cartList,
-                          ),
-                  ),
+            onScreenWidget,
             Column(
               children: <Widget>[
                 End2EndText(
@@ -127,14 +208,16 @@ class _CartScreenState extends State<CartScreen> {
             Container(
               padding: EdgeInsets.all(10),
               child: StartScreenButton(
-                text: 'Proceed',
+                text: buttonText,
                 onPressed: () {
-                  if (isAddressPage) {
-                    print('address page hai');
-                  } else {
+                  if (!isAddressPage && cartList.length != 0) {
                     setState(() {
+                      onScreenWidget = addressWidget();
                       isAddressPage = true;
+                      buttonText = 'Confirm Order';
                     });
+                  } else if (isAddressPage) {
+                    sendmail();
                   }
                 },
                 width: 100,
@@ -144,6 +227,33 @@ class _CartScreenState extends State<CartScreen> {
           ],
         ),
       ),
+    );
+  }
+}
+
+class CartWidget extends StatelessWidget {
+  const CartWidget({
+    Key key,
+    @required this.isLoading,
+    @required this.cartList,
+  }) : super(key: key);
+
+  final bool isLoading;
+  final List<CartProductBox> cartList;
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: isLoading
+          ? Center(
+              child: SpinKitRipple(
+                color: kButtonColor,
+                size: 100,
+              ),
+            )
+          : CartListView(
+              cartList: cartList,
+            ),
     );
   }
 }
@@ -186,6 +296,22 @@ class End2EndText extends StatelessWidget {
             size: 15,
           ),
         ],
+      ),
+    );
+  }
+}
+
+class DetailText extends StatelessWidget {
+  final String text;
+  DetailText({this.text});
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 50, top: 20),
+      child: Text(
+        text,
+        style: TextStyle(
+            color: Colors.black, fontSize: 18, fontWeight: FontWeight.w500),
       ),
     );
   }

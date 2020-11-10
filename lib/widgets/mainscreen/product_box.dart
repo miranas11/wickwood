@@ -83,7 +83,7 @@ class _ProductBoxState extends State<ProductBox> {
       padding: const EdgeInsets.symmetric(horizontal: 10),
       child: Container(
         height: 200,
-        width: 230,
+        width: 260,
         decoration: BoxDecoration(color: kBrownBGColor),
         child: Stack(
           children: <Widget>[
@@ -100,12 +100,12 @@ class _ProductBoxState extends State<ProductBox> {
                   ],
                 ),
                 height: 140,
-                width: 230,
+                width: 260,
               ),
             ),
             Positioned(
               top: 3,
-              right: 40,
+              right: 50,
               child: Container(
                 width: 170,
                 alignment: Alignment.center,

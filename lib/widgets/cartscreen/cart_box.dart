@@ -33,6 +33,8 @@ class _CartProductBoxState extends State<CartProductBox> {
         .collection('cartitems')
         .doc(widget.product.productId)
         .update({'quantity': newquantity});
+
+    widget.function();
   }
 
   deleteproductinFirestore() {

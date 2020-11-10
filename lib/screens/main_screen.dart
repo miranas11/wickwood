@@ -78,130 +78,133 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        automaticallyImplyLeading: false,
-        leading: Padding(
-          padding: EdgeInsets.only(left: 13, top: 10, bottom: 5),
-          child: CircleAvatar(
-            backgroundColor: kButtonColor,
-            backgroundImage: CachedNetworkImageProvider(currentUser.photoUrl),
-          ),
-        ),
-        actions: <Widget>[
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10.0),
-            child: GestureDetector(
-              onTap: () {
-                googleSignIn.signOut();
-                Navigator.popUntil(context, (route) => route.isFirst);
-              },
-              child: Icon(
-                Icons.logout,
-                color: kButtonColor,
-                size: 30,
-              ),
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
+        appBar: AppBar(
+          elevation: 0,
+          automaticallyImplyLeading: false,
+          leading: Padding(
+            padding: EdgeInsets.only(left: 13, top: 10, bottom: 5),
+            child: CircleAvatar(
+              backgroundColor: kButtonColor,
+              backgroundImage: CachedNetworkImageProvider(currentUser.photoUrl),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10.0),
-            child: GestureDetector(
-              onTap: () {
-                Navigator.pushNamed(context, WishlistScreen.id);
-              },
-              child: Icon(
-                Icons.favorite,
-                color: kButtonColor,
-                size: 30,
+          actions: <Widget>[
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10.0),
+              child: GestureDetector(
+                onTap: () {
+                  googleSignIn.signOut();
+                  Navigator.popUntil(context, (route) => route.isFirst);
+                },
+                child: Icon(
+                  Icons.logout,
+                  color: kButtonColor,
+                  size: 30,
+                ),
               ),
             ),
-          ),
-          isAdmin
-              ? Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => UploadProductScreen(),
-                        ),
-                      ).then((_) => getallProducts());
-                    },
-                    child: Icon(
-                      Icons.add,
-                      color: kButtonColor,
-                      size: 30,
-                    ),
-                  ),
-                )
-              : Text(''),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10.0),
-            child: GestureDetector(
-              onTap: () {
-                Navigator.pushNamed(context, CartScreen.id);
-              },
-              child: Icon(
-                Icons.shopping_cart,
-                color: kButtonColor,
-                size: 30,
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10.0),
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.pushNamed(context, WishlistScreen.id);
+                },
+                child: Icon(
+                  Icons.favorite,
+                  color: kButtonColor,
+                  size: 30,
+                ),
               ),
             ),
-          ),
-        ],
-      ),
-      backgroundColor: kBrownBGColor,
-      body: SafeArea(
-        child: Column(
-          children: <Widget>[
-            Slogan(),
-            isLoading
-                ? Expanded(
-                    child: Center(
-                      child: SpinKitRipple(
-                        size: 100,
+            isAdmin
+                ? Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => UploadProductScreen(),
+                          ),
+                        ).then((_) => getallProducts());
+                      },
+                      child: Icon(
+                        Icons.add,
                         color: kButtonColor,
+                        size: 30,
                       ),
                     ),
                   )
-                : Expanded(
-                    child: Container(
-                      child: ListView(
-                        children: <Widget>[
-                          CategoryWidget(
-                            image: 'chair',
-                            text: 'Chairs',
-                          ),
-                          ProductList(list: chairList),
-                          CategoryWidget(
-                            image: 'sofa',
-                            text: 'Sofas',
-                          ),
-                          ProductList(
-                            list: sofaList,
-                          ),
-                          CategoryWidget(
-                            image: 'cupboard',
-                            text: 'Cupboards',
-                          ),
-                          ProductList(list: cupBoardList),
-                          CategoryWidget(
-                            image: 'bed',
-                            text: 'Beds',
-                          ),
-                          ProductList(list: bedList),
-                          CategoryWidget(
-                            image: 'table',
-                            text: 'Tables',
-                          ),
-                          ProductList(list: tableList),
-                        ],
-                      ),
-                    ),
-                  )
+                : Text(''),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10.0),
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.pushNamed(context, CartScreen.id);
+                },
+                child: Icon(
+                  Icons.shopping_cart,
+                  color: kButtonColor,
+                  size: 30,
+                ),
+              ),
+            ),
           ],
+        ),
+        backgroundColor: kBrownBGColor,
+        body: SafeArea(
+          child: Column(
+            children: <Widget>[
+              Slogan(),
+              isLoading
+                  ? Expanded(
+                      child: Center(
+                        child: SpinKitRipple(
+                          size: 100,
+                          color: kButtonColor,
+                        ),
+                      ),
+                    )
+                  : Expanded(
+                      child: Container(
+                        child: ListView(
+                          children: <Widget>[
+                            CategoryWidget(
+                              image: 'chair',
+                              text: 'Chairs',
+                            ),
+                            ProductList(list: chairList),
+                            CategoryWidget(
+                              image: 'sofa',
+                              text: 'Sofas',
+                            ),
+                            ProductList(
+                              list: sofaList,
+                            ),
+                            CategoryWidget(
+                              image: 'cupboard',
+                              text: 'Cupboards',
+                            ),
+                            ProductList(list: cupBoardList),
+                            CategoryWidget(
+                              image: 'bed',
+                              text: 'Beds',
+                            ),
+                            ProductList(list: bedList),
+                            CategoryWidget(
+                              image: 'table',
+                              text: 'Tables',
+                            ),
+                            ProductList(list: tableList),
+                          ],
+                        ),
+                      ),
+                    )
+            ],
+          ),
         ),
       ),
     );
