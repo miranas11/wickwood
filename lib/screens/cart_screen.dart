@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:wickwood/components/constants.dart';
 import 'package:wickwood/models/product_class.dart';
+import 'package:wickwood/screens/orderplacedscreen.dart';
 import 'package:wickwood/screens/start_screen.dart';
 import 'package:wickwood/widgets/cartscreen/cart_box.dart';
 import 'package:wickwood/widgets/input_field.dart';
@@ -18,11 +19,11 @@ class CartScreen extends StatefulWidget {
 }
 
 class _CartScreenState extends State<CartScreen> {
-  String address;
-  String pincode;
-  String landmark;
-  String state;
-  String phonenumber;
+  String address = '.';
+  String pincode = '.';
+  String landmark = '.';
+  String state = '.';
+  String phonenumber = '.';
   Widget onScreenWidget = Text('');
   double totalPrice = 0;
   bool isAddressPage = false;
@@ -43,6 +44,7 @@ class _CartScreenState extends State<CartScreen> {
         commachecker++;
       }
     }
+
     String email = 'serioussam24031999@gmail.com';
     String password = 'messi@10';
 
@@ -218,6 +220,11 @@ class _CartScreenState extends State<CartScreen> {
                     });
                   } else if (isAddressPage) {
                     sendmail();
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => OrderConfirmScreen(),
+                        ));
                   }
                 },
                 width: 100,
